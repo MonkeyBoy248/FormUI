@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import AdressForm from '@/components/pages/adress/AdressForm.vue'
 import NavigationBlock from '@/components/shared/NavigationBlock.vue'
+import Toast from 'primevue/toast';
 </script>
 
 <template>
+  <Toast />
   <main class="adressPage">
     <div class="adressFormWrapper">
-      <AdressForm />
+      <RouterView />
     </div>
     <NavigationBlock />
   </main>

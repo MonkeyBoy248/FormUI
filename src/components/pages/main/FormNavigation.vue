@@ -1,48 +1,67 @@
 <script setup lang="ts">
 import FormStepLink from '@/components/pages/main/FormStepLink.vue'
+import { useFormStore } from '@/stores/form'
 
 import type { FormStep } from '@/types/form-step-link'
+import { storeToRefs } from 'pinia'
+import { computed } from 'vue'
 
-const FORM_STEPS: Omit<FormStep, 'index'>[] = [
+const formStore = useFormStore()
+const { formData } = storeToRefs(formStore)
+
+const FORM_STEPS: FormStep[] = [
   {
-    to: '/adress',
+    id: 'adress',
+    to: 'form/adress',
     description: 'Адрес вызова'
   },
   {
-    to: '/patient-info',
+    id: 'patientInfo',
+    to: 'form/patient-info',
     description: 'Сведения о больном'
   },
   {
-    to: '/issuer',
+    id: 'issuer',
+    to: 'form/issuer',
     description: 'Кто вызывал'
   },
   {
+    id: 'patientCurrentState',
     to: '/patient-current-state',
     description: 'Текущее состояние больного'
   },
   {
+    id: 'anamnesis',
     to: '/anamnesis',
     description: 'Анамнез'
   }
 ]
 
-const buildStepItem = (step: Omit<FormStep, 'index'>, index: number): FormStep => {
+const buildStepItem = (step: FormStep, index: number): FormStep => {
   return {
     ...step,
     index
   }
 }
+
+const stepItems = computed(() => {
+  return FORM_STEPS.map((step, index) => {
+    const isCompleted = formData.value[step.id].isCompleted
+    const formattedStep = buildStepItem(step, index + 1)
+
+    return {
+      ...formattedStep,
+      isCompleted
+    }
+  })
+})
 </script>
 
 <template>
   <div>
     <h2 class="navigationHeader">Заполните данные</h2>
     <nav class="navigationWrapper">
-      <FormStepLink
-        v-for="(step, index) in FORM_STEPS"
-        :step="buildStepItem(step, index + 1)"
-        :key="step.to"
-      />
+      <FormStepLink v-for="step in stepItems" :step="step" :key="step.to" />
     </nav>
   </div>
 </template>

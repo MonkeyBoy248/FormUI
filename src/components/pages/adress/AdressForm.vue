@@ -1,16 +1,22 @@
 <script setup lang="ts">
-import InputText from 'primevue/inputtext';
-import Button from 'primevue/button';
-import { EMPTY_ADRESS_FORM, FORM_CAPTIONS } from '@/constants/adress-form'
-import { ref } from 'vue'
-import type { AdressFormData } from '@/types/adress-form'
+import InputText from 'primevue/inputtext'
+import Button from 'primevue/button'
+import {  EMPTY_ADRESS_FORM, FORM_CAPTIONS } from '@/constants/adress-form'
+import { computed } from 'vue'
+import { useFormStore } from '@/stores/form'
+import { storeToRefs } from 'pinia'
 
-const formData = ref<AdressFormData>({ ...EMPTY_ADRESS_FORM })
+const formStore = useFormStore()
+const { completeFormStep } = formStore
+const { formData } = storeToRefs(formStore)
+const adressFormData = computed(() => {
+  return formData.value.adress.data
+})
 
 const resetForm = (e: Event) => {
   e.preventDefault()
 
-  formData.value = { ...EMPTY_ADRESS_FORM }
+  completeFormStep('adress', EMPTY_ADRESS_FORM)
 }
 </script>
 
@@ -18,46 +24,16 @@ const resetForm = (e: Event) => {
   <form @submit="resetForm" class="adressForm">
     <h3 class="adressFormHeader">{{ FORM_CAPTIONS.FORM_HEADER }}</h3>
     <fieldset class="adressFormFieldset">
-      <InputText
-        v-model="formData.city"
-        :placeholder="FORM_CAPTIONS.CITY"
-      />
-      <InputText
-        v-model="formData.district"
-        :placeholder="FORM_CAPTIONS.DISTRICT"
-      />
-      <InputText
-        v-model="formData.locality"
-        :placeholder="FORM_CAPTIONS.LOCALITY"
-      />
-      <InputText
-        v-model="formData.street"
-        :placeholder="FORM_CAPTIONS.STREET"
-      />
-      <InputText
-        v-model="formData.building"
-        :placeholder="FORM_CAPTIONS.BUILDING"
-      />
-      <InputText
-        v-model="formData.case"
-        :placeholder="FORM_CAPTIONS.CASE"
-      />
-      <InputText
-        v-model="formData.apartment"
-        :placeholder="FORM_CAPTIONS.APARTMENT"
-      />
-      <InputText
-        v-model="formData.entrance"
-        :placeholder="FORM_CAPTIONS.ENTRANCE"
-      />
-      <InputText
-        v-model="formData.entranceCode"
-        :placeholder="FORM_CAPTIONS.ENTRANCE_CODE"
-      />
-      <InputText
-        v-model="formData.floor"
-        :placeholder="FORM_CAPTIONS.FLOOR"
-      />
+      <InputText v-model="adressFormData.city" :placeholder="FORM_CAPTIONS.CITY" />
+      <InputText v-model="adressFormData.district" :placeholder="FORM_CAPTIONS.DISTRICT" />
+      <InputText v-model="adressFormData.locality" :placeholder="FORM_CAPTIONS.LOCALITY" />
+      <InputText v-model="adressFormData.street" :placeholder="FORM_CAPTIONS.STREET" />
+      <InputText v-model="adressFormData.building" :placeholder="FORM_CAPTIONS.BUILDING" />
+      <InputText v-model="adressFormData.case" :placeholder="FORM_CAPTIONS.CASE" />
+      <InputText v-model="adressFormData.apartment" :placeholder="FORM_CAPTIONS.APARTMENT" />
+      <InputText v-model="adressFormData.entrance" :placeholder="FORM_CAPTIONS.ENTRANCE" />
+      <InputText v-model="adressFormData.entranceCode" :placeholder="FORM_CAPTIONS.ENTRANCE_CODE" />
+      <InputText v-model="adressFormData.floor" :placeholder="FORM_CAPTIONS.FLOOR" />
     </fieldset>
     <Button type="submit" class="submitButton">Отправить</Button>
   </form>

@@ -1,5 +1,9 @@
+import type { FormStepName } from "./form"
+
 export type FormStep = {
-    index: number
+    id: FormStepName
+    index?: number
     description: string
     to: string
+    isCompleted?: boolean
 }
