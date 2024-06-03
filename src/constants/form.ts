@@ -2,6 +2,8 @@ import type { FormData } from '@/types/form'
 import { EMPTY_ADRESS_FORM } from './adress-form'
 import { EMPTY_PATIENT_INFO_FORM } from './patient-info'
 import { EMPTY_ISSUER_FORM } from './issuer'
+import { EMPTY_PATIENT_CURRENT_STATE_FORM } from './patient-current-state'
+import { EMPTY_ANAMNESIS_FORM } from './anamnesis'
 
 export const DEFAULT_FORM_DATA: FormData = {
   adress: {
@@ -14,9 +16,9 @@ export const DEFAULT_FORM_DATA: FormData = {
     data: { ...EMPTY_ISSUER_FORM }
   },
   patientCurrentState: {
-    data: {}
+    data: { ...EMPTY_PATIENT_CURRENT_STATE_FORM }
   },
   anamnesis: {
-    data: {}
+    data: { ...EMPTY_ANAMNESIS_FORM }
   }
 }

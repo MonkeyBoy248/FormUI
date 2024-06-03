@@ -37,6 +37,22 @@ const router = createRouter({
           // this generates a separate chunk (About.[hash].js) for this route
           // which is lazy-loaded when the route is visited.
           component: () => import('../components/pages/issuer/IssuerForm.vue')
+        },
+        {
+          path: 'patient-current-state',
+          name: 'patientCurrentState',
+          // route level code-splitting
+          // this generates a separate chunk (About.[hash].js) for this route
+          // which is lazy-loaded when the route is visited.
+          component: () => import('../components/pages/patient-current-state/PatientCurrentStateForm.vue')
+        },
+        {
+          path: 'anamnesis',
+          name: 'anamnesis',
+          // route level code-splitting
+          // this generates a separate chunk (About.[hash].js) for this route
+          // which is lazy-loaded when the route is visited.
+          component: () => import('../components/pages/anamnesis/AnamnesisForm.vue')
         }
       ]
     }

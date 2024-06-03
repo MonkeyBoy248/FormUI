@@ -2,7 +2,7 @@
 import InputText from 'primevue/inputtext'
 import InputMask from 'primevue/inputmask'
 import Button from 'primevue/button'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useFormStore } from '@/stores/form'
 import { storeToRefs } from 'pinia'
 import { EMPTY_ISSUER_FORM, FORM_CAPTIONS } from '@/constants/issuer'
@@ -11,7 +11,7 @@ import { useToast } from 'primevue/usetoast'
 
 const formStore = useFormStore()
 const { completeFormStep } = formStore
-const { formData } = storeToRefs(formStore)
+const { formData, currentStepId } = storeToRefs(formStore)
 
 const issuerFormData = computed<IssuerFormData>(() => {
   return formData.value.issuer.data as IssuerFormData
@@ -29,6 +29,10 @@ const resetForm = (e: Event) => {
   completeFormStep('issuer', EMPTY_ISSUER_FORM)
   show()
 }
+
+onMounted(() => {
+  currentStepId.value = 'issuer'
+})
 </script>
 
 <template>
@@ -84,21 +88,5 @@ const resetForm = (e: Event) => {
 
 .submitButton:hover {
   background-color: rgb(77, 77, 225, 1);
-}
-
-.genderRadioWrapper {
-  display: flex;
-  gap: 12px;
-  align-items: center;
-}
-
-.radioWrapper {
-  display: flex;
-  gap: 8px;
-  align-items: center;
-}
-
-.radio {
-  border-radius: 10px;
 }
 </style>

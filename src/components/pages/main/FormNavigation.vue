@@ -27,12 +27,12 @@ const FORM_STEPS: FormStep[] = [
   },
   {
     id: 'patientCurrentState',
-    to: '/patient-current-state',
+    to: 'form/patient-current-state',
     description: 'Текущее состояние больного'
   },
   {
     id: 'anamnesis',
-    to: '/anamnesis',
+    to: 'form/anamnesis',
     description: 'Анамнез'
   }
 ]

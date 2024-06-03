@@ -2,7 +2,7 @@
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import RadioButton from 'primevue/radiobutton'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useFormStore } from '@/stores/form'
 import { storeToRefs } from 'pinia'
 import type { PatientInfoFormData } from '@/types/patient-info'
@@ -10,7 +10,7 @@ import { EMPTY_PATIENT_INFO_FORM, FORM_CAPTIONS } from '@/constants/patient-info
 
 const formStore = useFormStore()
 const { completeFormStep } = formStore
-const { formData } = storeToRefs(formStore)
+const { formData, currentStepId } = storeToRefs(formStore)
 
 const patientFormData = computed<PatientInfoFormData>(() => {
   return formData.value.patientInfo.data as PatientInfoFormData
@@ -21,6 +21,10 @@ const resetForm = (e: Event) => {
 
   completeFormStep('patientInfo', EMPTY_PATIENT_INFO_FORM)
 }
+
+onMounted(() => {
+  currentStepId.value = 'patientInfo'
+})
 </script>
 
 <template>

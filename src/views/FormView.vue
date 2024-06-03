@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import NavigationBlock from '@/components/shared/NavigationBlock.vue'
-import Toast from 'primevue/toast';
+import Toast from 'primevue/toast'
 </script>
 
 <template>
   <Toast />
-  <main class="adressPage">
-    <div class="adressFormWrapper">
+  <main class="formPage">
+    <div class="formWrapper">
       <RouterView />
     </div>
     <NavigationBlock />
@@ -14,14 +14,15 @@ import Toast from 'primevue/toast';
 </template>
 
 <style scoped>
-.adressPage {
+.formPage {
   width: 100%;
   margin: auto;
   max-width: 1400px;
+  min-width: 900px;
   padding: 32px 24px;
 }
 
-.adressFormWrapper {
+.formWrapper {
   display: flex;
   align-items: center;
   flex-direction: column;

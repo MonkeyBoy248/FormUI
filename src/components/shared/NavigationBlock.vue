@@ -1,10 +1,15 @@
 <script setup lang="ts">
+import { useFormStore } from '@/stores/form';
+import { storeToRefs } from 'pinia';
 import { RouterLink } from 'vue-router'
+
+const formStore = useFormStore()
+const { isLastStepId } = storeToRefs(formStore)
 </script>
 <template>
   <div class="navigationWrapper">
     <RouterLink class="navigationLink" to="/">На главную</RouterLink>
-    <RouterLink class="navigationLink" to="/">Далее</RouterLink>
+    <RouterLink v-if="!isLastStepId" class="navigationLink" to="/">Далее</RouterLink>
   </div>
 </template>
 <style scoped>

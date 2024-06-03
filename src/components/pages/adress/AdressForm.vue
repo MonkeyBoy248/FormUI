@@ -2,13 +2,13 @@
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
 import {  EMPTY_ADRESS_FORM, FORM_CAPTIONS } from '@/constants/adress-form'
-import { computed } from 'vue'
+import { computed, onMounted } from 'vue'
 import { useFormStore } from '@/stores/form'
 import { storeToRefs } from 'pinia'
 
 const formStore = useFormStore()
 const { completeFormStep } = formStore
-const { formData } = storeToRefs(formStore)
+const { formData, currentStepId } = storeToRefs(formStore)
 const adressFormData = computed(() => {
   return formData.value.adress.data
 })
@@ -18,6 +18,10 @@ const resetForm = (e: Event) => {
 
   completeFormStep('adress', EMPTY_ADRESS_FORM)
 }
+
+onMounted(() => {
+  currentStepId.value = 'adress'
+})
 </script>
 
 <template>
