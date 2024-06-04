@@ -5,12 +5,13 @@ import {  EMPTY_ADRESS_FORM, FORM_CAPTIONS } from '@/constants/adress-form'
 import { computed, onMounted } from 'vue'
 import { useFormStore } from '@/stores/form'
 import { storeToRefs } from 'pinia'
+import type { AdressFormData } from '@/types/adress-form'
 
 const formStore = useFormStore()
 const { completeFormStep } = formStore
 const { formData, currentStepId } = storeToRefs(formStore)
-const adressFormData = computed(() => {
-  return formData.value.adress.data
+const adressFormData = computed<AdressFormData>(() => {
+  return formData.value.adress.data as AdressFormData
 })
 
 const resetForm = (e: Event) => {

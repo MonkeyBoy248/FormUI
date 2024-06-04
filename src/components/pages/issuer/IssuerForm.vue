@@ -2,7 +2,7 @@
 import InputText from 'primevue/inputtext'
 import InputMask from 'primevue/inputmask'
 import Button from 'primevue/button'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, ref } from 'vue'
 import { useFormStore } from '@/stores/form'
 import { storeToRefs } from 'pinia'
 import { EMPTY_ISSUER_FORM, FORM_CAPTIONS } from '@/constants/issuer'
@@ -23,9 +23,18 @@ const show = () => {
   toast.add({ severity: 'success', summary: 'Успешно!', detail: 'Данные записаны', life: 3000 })
 }
 
+const isValidNameField = ref<boolean>(true)
+
 const resetForm = (e: Event) => {
   e.preventDefault()
 
+  if (/[0-9]+/g.test(issuerFormData.value.name)) {
+    isValidNameField.value = false
+
+    return
+  }
+
+  isValidNameField.value = true
   completeFormStep('issuer', EMPTY_ISSUER_FORM)
   show()
 }
@@ -40,7 +49,16 @@ onMounted(() => {
     <h3 class="patientInfoFormHeader">{{ FORM_CAPTIONS.FORM_HEADER }}</h3>
     <fieldset class="patientInfoFormFieldset">
       <InputText v-model="issuerFormData.surname" :placeholder="FORM_CAPTIONS.SURNAME" />
-      <InputText v-model="issuerFormData.name" :placeholder="FORM_CAPTIONS.NAME" />
+      <div class="inputWithCaptionWrapper">
+        <InputText
+          v-model="issuerFormData.name"
+          :placeholder="FORM_CAPTIONS.NAME"
+          :class="{ invalid: !isValidNameField }"
+        />
+        <span v-if="!isValidNameField" class="invalidCaption"
+          >Поле может содержать только буквы</span
+        >
+      </div>
       <InputText v-model="issuerFormData.patronymic" :placeholder="FORM_CAPTIONS.PATRONYMIC" />
       <InputText v-model="issuerFormData.relationship" :placeholder="FORM_CAPTIONS.RELATIONSHIP" />
       <InputMask
@@ -88,5 +106,25 @@ onMounted(() => {
 
 .submitButton:hover {
   background-color: rgb(77, 77, 225, 1);
+}
+
+.inputWithCaptionWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.invalidCaption {
+  font-size: 14px;
+  color: #f02525;
+}
+
+.invalid {
+  border-color: #ff0000;
+  background-color: #ff00002b;
+}
+
+.invalid:focus-within {
+  outline: none
 }
 </style>
