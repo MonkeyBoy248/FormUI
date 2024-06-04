@@ -7,35 +7,7 @@ import { storeToRefs } from 'pinia'
 import { computed } from 'vue'
 
 const formStore = useFormStore()
-const { formData } = storeToRefs(formStore)
-
-const FORM_STEPS: FormStep[] = [
-  {
-    id: 'adress',
-    to: 'form/adress',
-    description: 'Адрес вызова'
-  },
-  {
-    id: 'patientInfo',
-    to: 'form/patient-info',
-    description: 'Сведения о больном'
-  },
-  {
-    id: 'issuer',
-    to: 'form/issuer',
-    description: 'Кто вызывал'
-  },
-  {
-    id: 'patientCurrentState',
-    to: 'form/patient-current-state',
-    description: 'Текущее состояние больного'
-  },
-  {
-    id: 'anamnesis',
-    to: 'form/anamnesis',
-    description: 'Анамнез'
-  }
-]
+const { formData, formSteps } = storeToRefs(formStore)
 
 const buildStepItem = (step: FormStep, index: number): FormStep => {
   return {
@@ -45,7 +17,7 @@ const buildStepItem = (step: FormStep, index: number): FormStep => {
 }
 
 const stepItems = computed(() => {
-  return FORM_STEPS.map((step, index) => {
+  return formSteps.value.map((step, index) => {
     const isCompleted = formData.value[step.id].isCompleted
     const formattedStep = buildStepItem(step, index + 1)
 

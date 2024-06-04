@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Button from 'primevue/button'
-import CheckboxGroup from '@/components/shared/CheckboxGroup.vue'
-import { onMounted } from 'vue'
+import RadioButtonGroup from '@/components/shared/RadioButtonGroup.vue'
+import { computed, onMounted } from 'vue'
 import { useFormStore } from '@/stores/form'
 import { storeToRefs } from 'pinia'
 
@@ -9,12 +9,13 @@ import {
   EMPTY_PATIENT_CURRENT_STATE_FORM,
   buildPatientCurrentStateFormConfig
 } from '@/constants/patient-current-state'
+import type { PatientCurrentStateFormData } from '@/types/patient-current-state'
 
 const FORM_HEADER = 'Сведения о больном'
 
 const formStore = useFormStore()
 const { completeFormStep } = formStore
-const { currentStepId } = storeToRefs(formStore)
+const { currentStepId, formData } = storeToRefs(formStore)
 
 const resetForm = (e: Event) => {
   e.preventDefault()
@@ -22,7 +23,11 @@ const resetForm = (e: Event) => {
   completeFormStep('patientCurrentState', EMPTY_PATIENT_CURRENT_STATE_FORM)
 }
 
-const checkboxGroups = buildPatientCurrentStateFormConfig()
+const patientCurrentStateFormData = computed<PatientCurrentStateFormData>(() => {
+  return formData.value.patientCurrentState.data as PatientCurrentStateFormData
+})
+
+const radioButtonGroups = buildPatientCurrentStateFormConfig()
 
 onMounted(() => {
   currentStepId.value = 'patientCurrentState'
@@ -33,7 +38,12 @@ onMounted(() => {
   <form @submit="resetForm" class="patientCurrentStateForm">
     <h3 class="patientCurrentStateFormHeader">{{ FORM_HEADER }}</h3>
     <fieldset class="patientCurrentStateFormFieldset">
-      <CheckboxGroup v-for="group in checkboxGroups" :key="group.id" :group="group" />
+      <RadioButtonGroup
+        v-model="patientCurrentStateFormData[group.id as keyof PatientCurrentStateFormData]"
+        v-for="group in radioButtonGroups"
+        :key="group.id"
+        :group="group"
+      />
     </fieldset>
     <Button type="submit" class="submitButton">Отправить</Button>
   </form>

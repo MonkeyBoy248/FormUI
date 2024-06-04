@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Textarea from 'primevue/textarea'
 import Button from 'primevue/button'
-import CheckboxGroup from '@/components/shared/CheckboxGroup.vue'
+import RadioButtonGroup from '@/components/shared/RadioButtonGroup.vue'
 import {
   EMPTY_ANAMNESIS_FORM,
   FORM_CAPTIONS,
@@ -27,7 +27,7 @@ const resetForm = (e: Event) => {
   completeFormStep('anamnesis', EMPTY_ANAMNESIS_FORM)
 }
 
-const checkboxGroups = buildAnamnesisFormConfig(anamnesisFormData)
+const radioButtonGroups = buildAnamnesisFormConfig()
 
 onMounted(() => {
   currentStepId.value = 'anamnesis'
@@ -76,7 +76,12 @@ onMounted(() => {
         ></Textarea>
       </div>
       <p>{{ FORM_CAPTIONS.OBJECTIVE_DATA }}</p>
-      <CheckboxGroup v-for="group in checkboxGroups" :key="group.id" :group="group" />
+      <RadioButtonGroup
+        v-model="anamnesisFormData[group.id as keyof AnamnesisFormData]"
+        v-for="group in radioButtonGroups"
+        :key="group.id"
+        :group="group"
+      />
       <div class="anamnesisTextAreaWrapper">
         <Textarea
           v-model="anamnesisFormData.additionalObjectiveData"
