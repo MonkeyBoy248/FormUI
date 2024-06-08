@@ -455,13 +455,13 @@ export const buildPatientCurrentStateFormConfig = (): ComputedRef<RadioButtonGro
 }
 
 export const EMPTY_PATIENT_CURRENT_STATE_FORM: PatientCurrentStateFormData = {
-  registration: 'City',
-  socialStatus: 'Employed',
-  callReason: 'Accident',
-  callType: 'Initial',
-  callSource: 'Station',
-  crew: 'Doctor',
-  callDestinationType: 'Apartment',
-  accidentReason: 'Domestic',
-  intoxication: 'False'
+  registration: '',
+  socialStatus: '',
+  callReason: '',
+  callType: '',
+  callSource: 'n',
+  crew: '',
+  callDestinationType: 't',
+  accidentReason: '',
+  intoxication: ''
 }

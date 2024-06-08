@@ -1,15 +1,15 @@
 <script setup lang="ts">
 import InputText from 'primevue/inputtext'
 import Button from 'primevue/button'
-import RadioButton from 'primevue/radiobutton'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, onUnmounted } from 'vue'
 import { useFormStore } from '@/stores/form'
 import { storeToRefs } from 'pinia'
 import type { PatientInfoFormData } from '@/types/patient-info'
 import { EMPTY_PATIENT_INFO_FORM, FORM_CAPTIONS } from '@/constants/patient-info'
+import CustomRadioButton from '@/components/shared/CustomRadioButton.vue'
 
 const formStore = useFormStore()
-const { completeFormStep } = formStore
+const { completeFormStep, updateFormStepData } = formStore
 const { formData, currentStepId } = storeToRefs(formStore)
 
 const patientFormData = computed<PatientInfoFormData>(() => {
@@ -25,6 +25,10 @@ const resetForm = (e: Event) => {
 onMounted(() => {
   currentStepId.value = 'patientInfo'
 })
+
+onUnmounted(() => {
+  updateFormStepData('patientInfo', EMPTY_PATIENT_INFO_FORM)
+})
 </script>
 
 <template>
@@ -39,7 +43,7 @@ onMounted(() => {
         {{ FORM_CAPTIONS.GENDER }}
         <div class="radioWrapper">
           <label for="Male">М</label>
-          <RadioButton
+          <CustomRadioButton
             class="radio"
             v-model="patientFormData.gender"
             inputId="Male"
@@ -49,7 +53,7 @@ onMounted(() => {
         </div>
         <div class="radioWrapper">
           <label for="Female">Ж</label>
-          <RadioButton
+          <CustomRadioButton
             v-model="patientFormData.gender"
             inputId="Female"
             name="gender"

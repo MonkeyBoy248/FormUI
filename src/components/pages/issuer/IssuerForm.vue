@@ -2,7 +2,7 @@
 import InputText from 'primevue/inputtext'
 import InputMask from 'primevue/inputmask'
 import Button from 'primevue/button'
-import { computed, onMounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import { useFormStore } from '@/stores/form'
 import { storeToRefs } from 'pinia'
 import { EMPTY_ISSUER_FORM, FORM_CAPTIONS } from '@/constants/issuer'
@@ -10,7 +10,7 @@ import type { IssuerFormData } from '@/types/issuer'
 import { useToast } from 'primevue/usetoast'
 
 const formStore = useFormStore()
-const { completeFormStep } = formStore
+const { completeFormStep, updateFormStepData } = formStore
 const { formData, currentStepId } = storeToRefs(formStore)
 
 const issuerFormData = computed<IssuerFormData>(() => {
@@ -41,6 +41,10 @@ const resetForm = (e: Event) => {
 
 onMounted(() => {
   currentStepId.value = 'issuer'
+})
+
+onUnmounted(() => {
+  updateFormStepData('issuer', EMPTY_ISSUER_FORM)
 })
 </script>
 

@@ -7,7 +7,7 @@ import {
   FORM_SELECTORS_DATA,
   EMPTY_AMBULANCE_FORM
 } from '@/constants/ambulance-form'
-import { ref } from 'vue'
+import { onUnmounted, ref } from 'vue'
 import type { AmbulanceFormData } from '@/types/ambulance-form'
 
 const formData = ref<AmbulanceFormData>({ ...EMPTY_AMBULANCE_FORM })
@@ -17,6 +17,10 @@ const resetForm = (e: Event) => {
 
   formData.value = { ...EMPTY_AMBULANCE_FORM }
 }
+
+onUnmounted(() => {
+  formData.value = { ...EMPTY_AMBULANCE_FORM }
+})
 </script>
 
 <template>

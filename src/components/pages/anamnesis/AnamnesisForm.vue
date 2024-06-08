@@ -7,14 +7,14 @@ import {
   FORM_CAPTIONS,
   buildAnamnesisFormConfig
 } from '@/constants/anamnesis'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, onUnmounted } from 'vue'
 import { useFormStore } from '@/stores/form'
 import { storeToRefs } from 'pinia'
 
 import type { AnamnesisFormData } from '@/types/anamnesis'
 
 const formStore = useFormStore()
-const { completeFormStep } = formStore
+const { completeFormStep, updateFormStepData } = formStore
 const { formData, currentStepId } = storeToRefs(formStore)
 
 const anamnesisFormData = computed<AnamnesisFormData>(() => {
@@ -31,6 +31,10 @@ const radioButtonGroups = buildAnamnesisFormConfig()
 
 onMounted(() => {
   currentStepId.value = 'anamnesis'
+})
+
+onUnmounted(() => {
+  updateFormStepData('anamnesis', EMPTY_ANAMNESIS_FORM)
 })
 </script>
 

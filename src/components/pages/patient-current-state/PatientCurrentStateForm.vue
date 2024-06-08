@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import Button from 'primevue/button'
 import RadioButtonGroup from '@/components/shared/RadioButtonGroup.vue'
-import { computed, onMounted } from 'vue'
+import { computed, onMounted, onUnmounted } from 'vue'
 import { useFormStore } from '@/stores/form'
 import { storeToRefs } from 'pinia'
 
@@ -14,7 +14,7 @@ import type { PatientCurrentStateFormData } from '@/types/patient-current-state'
 const FORM_HEADER = 'Сведения о больном'
 
 const formStore = useFormStore()
-const { completeFormStep } = formStore
+const { completeFormStep, updateFormStepData } = formStore
 const { currentStepId, formData } = storeToRefs(formStore)
 
 const resetForm = (e: Event) => {
@@ -31,6 +31,10 @@ const radioButtonGroups = buildPatientCurrentStateFormConfig()
 
 onMounted(() => {
   currentStepId.value = 'patientCurrentState'
+})
+
+onUnmounted(() => {
+  updateFormStepData('patientCurrentState', EMPTY_PATIENT_CURRENT_STATE_FORM)
 })
 </script>
 
